@@ -204,52 +204,56 @@ export default function MonthlyDashboard () {
         currentPage + 1));
     };
 
+    //Download yearly excel report
     const downloadExcel = 
     async () => {
         try {
-            //Get current year
+            //Get selected year & use current year if no year selected
             const year = 
-            new Date()
-            .getFullYear();
+            selectedYear
+            ? selectedYear
+            .substring(0, 4)
+            : getCurrentYear();
 
-            //Request yearly Excel report
+            //Request yearly report
             const response = 
             await fetch(
-                `http://localhost:8080/monthly/export/${year}`,
+                `${API_URL}/export/${year}`,
                 {
                     method: "GET"
                 }
             );
 
             //Check whether request was successful
-            if (!response.ok) 
-                throw new Error("Failed to download the yearly expense report.");
+            if (!response.ok) {
+                const errorMessage = 
+                await response
+                .text();
+                throw new Error(
+                    `Download failed (${response.status}): ${errorMessage}`
+                );
+            }
 
-            //Convert  response into a Blob
+            //Convert response into a Blob
             const blob = 
             await response
             .blob();
 
             //Create temporary download URL
             const url = 
-            window
-            .URL
+            window.URL
             .createObjectURL(blob);
 
-            //Create & configure download link
+            //Create download link
             const link = 
             document
             .createElement("a");
-            link
-            .href = 
-            url;
-            link
-            .download = 
+            link.href = url;
+            link.download = 
             `Expense Records For Year ${year}.xlsx`;
 
             //Trigger download
-            document
-            .body
+            document.body
             .appendChild(link);
             link
             .click();
@@ -257,14 +261,17 @@ export default function MonthlyDashboard () {
             .remove();
 
             //Release temporary URL
-            window
-            .URL
-            .revokeObjectURL(url);
+            setTimeout(() => {
+                window.URL
+                .revokeObjectURL(url);
+            }, 1000);
         } catch (error) {
             console
-            .error("Error downloading yearly expense report:", 
+            .error(
+            "Error downloading yearly expense report:",
             error);
-            alert("Unable to download the yearly expense report. Please try again.");
+            alert(error.message || 
+            "Unable to download yearly expense report.");
         }
     };
 
