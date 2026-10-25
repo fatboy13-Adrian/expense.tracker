@@ -204,6 +204,70 @@ export default function MonthlyDashboard () {
         currentPage + 1));
     };
 
+    const downloadExcel = 
+    async () => {
+        try {
+            //Get current year
+            const year = 
+            new Date()
+            .getFullYear();
+
+            //Request yearly Excel report
+            const response = 
+            await fetch(
+                `http://localhost:8080/monthly/export/${year}`,
+                {
+                    method: "GET"
+                }
+            );
+
+            //Check whether request was successful
+            if (!response.ok) 
+                throw new Error("Failed to download the yearly expense report.");
+
+            //Convert  response into a Blob
+            const blob = 
+            await response
+            .blob();
+
+            //Create temporary download URL
+            const url = 
+            window
+            .URL
+            .createObjectURL(blob);
+
+            //Create & configure download link
+            const link = 
+            document
+            .createElement("a");
+            link
+            .href = 
+            url;
+            link
+            .download = 
+            `Expense Records For Year ${year}.xlsx`;
+
+            //Trigger download
+            document
+            .body
+            .appendChild(link);
+            link
+            .click();
+            link
+            .remove();
+
+            //Release temporary URL
+            window
+            .URL
+            .revokeObjectURL(url);
+        } catch (error) {
+            console
+            .error("Error downloading yearly expense report:", 
+            error);
+            alert("Unable to download the yearly expense report. Please try again.");
+        }
+    };
+
     return (
         <div className = 
         "dashboard-center">
@@ -276,6 +340,12 @@ export default function MonthlyDashboard () {
                             className = "custom-btn"
                             onClick = {handleReset}>
                             Reset
+                        </button>
+
+                        <button 
+                            className = "custom-btn" 
+                            onClick = {downloadExcel}>
+                            Download
                         </button>
 
                         <button

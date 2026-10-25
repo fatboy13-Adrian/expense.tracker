@@ -1,34 +1,26 @@
 export default function InputDate 
-({name, 
-label = "Date", 
-value,
-onChange, 
-disabled}) {
-    const sgTime = 
-    new Date()
-    .toLocaleDateString("en-CA", {
-        timeZone: "Asia/Singapore"
-    });
-
+({name, label = "Date", type = "date",
+value = "", onChange, disabled = false,
+max, min, className = "input"}) {
     return (
-        <div className = 
-        "date-input-container">
-            <label htmlFor = {name} 
-            className = "date-input-label">
+        <div className = "input-date">
+            <label
+                htmlFor = {name}
+                className = 
+                "input-date-label">
                 {label}
             </label>
 
             <input
+                type = {type}
                 id = {name}
-                type = "date"
                 name = {name}
                 value = {value}
                 onChange = {onChange}
                 disabled = {disabled}
-                max = {sgTime}
-                className = "form-control date-input"
-                required
-            />
+                max = {max}
+                min = {min}
+                className = {className}/>
         </div>
     );
 }

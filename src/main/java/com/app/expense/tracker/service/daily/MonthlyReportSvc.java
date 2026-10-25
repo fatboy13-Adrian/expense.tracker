@@ -1,4 +1,5 @@
 package com.app.expense.tracker.service.daily;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
@@ -16,101 +17,105 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import com.app.expense.tracker.dto.DailyDTO;
 import com.app.expense.tracker.exception.ExportExcelFailedException;
 import com.app.expense.tracker.exception.date.DateNotFoundException;
 import com.app.expense.tracker.exception.month.MonthNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class MonthlyReportSvc {
     private final DailyService svc;
-
-    public List<DailyDTO> getDateRange 
+    /*
+     * Retrieve all existing daily 
+     * expense records for 
+     * specified month & year
+     */
+    public List <DailyDTO> getDateRange 
     (YearMonth month) {
-        List<DailyDTO> dto = 
+        List <DailyDTO> records = 
         new ArrayList<>();
 
-        /*
-         * Determine 1st & last 
-         * dates of selected month
-         */
-        LocalDate start = 
+        //Determine 1st & last dates of selected month
+        LocalDate startDate = 
         month
         .atDay(1);
-        LocalDate end = 
+        LocalDate endDate = 
         month
         .atEndOfMonth();
 
-        /*
-         * Retrieve daily record & 
-         * skip dates without records
-         */
-        for (LocalDate current = 
-        start;
-        !current
-        .isAfter(end);
-        current = 
-        current
-        .plusDays(1)) {
+        //Retrieve each daily record within selected month
+        for (LocalDate date = startDate;
+        !date.isAfter(endDate);
+        date = date.plusDays(1)) {
             try {
-                dto
-                .add(svc
-                .retrieve(current));
+                DailyDTO record = 
+                svc
+                .retrieve(date);
+                records
+                .add(record);
             } catch (DateNotFoundException e) {
                 //Skip dates without expense records
             }
         }
 
-        /*
-         * Throw an exception if no record/s 
-         * exists for selected month
-         */
-        if (dto.isEmpty())
-        throw new MonthNotFoundException(month);
+        //Reject the export if selected month has no records
+        if (records.isEmpty()) 
+            throw new MonthNotFoundException(month);
 
-        return dto;
+        return records;
     }
 
-    private ByteArrayInputStream buildCurrentMonthReport 
-    (List<DailyDTO> dto, 
-    String sheetName) {
+    /*
+     * Generate an Excel workbook 
+     * containing selected month's
+     * daily expense records
+     */
+    private ByteArrayInputStream buildMonthlyReport
+    (List<DailyDTO> records, String sheetName) {
         try (Workbook workbook = 
         new XSSFWorkbook();
         ByteArrayOutputStream output = 
         new ByteArrayOutputStream()) {
-            //Create worksheet
+            //Create worksheet.
             Sheet sheet = 
             workbook
             .createSheet(sheetName);
 
             //Configure header style
             CellStyle headerStyle = 
-            workbook.createCellStyle();
-            Font font = workbook
+            workbook
+            .createCellStyle();
+
+            Font headerFont = 
+            workbook
             .createFont();
-            font
+            headerFont
             .setBold(true);
+
             headerStyle
-            .setFont(font);
+            .setFont(headerFont);
             headerStyle
-            .setAlignment(HorizontalAlignment.CENTER);
+            .setAlignment(HorizontalAlignment
+            .CENTER);
 
             //Configure currency style
-            CellStyle currencyStyle =
-            workbook.createCellStyle();
-            currencyStyle.setDataFormat(
-            workbook.createDataFormat()
+            CellStyle currencyStyle = 
+            workbook
+            .createCellStyle();
+
+            currencyStyle
+            .setDataFormat(
+            workbook
+            .createDataFormat()
             .getFormat("[$$-en-SG]#,##0.00"));
             currencyStyle
-            .setAlignment(HorizontalAlignment.CENTER);
+            .setAlignment(HorizontalAlignment
+            .CENTER);
 
-            /*
-             * Define excel columns in
-             * their intended order
-             */
+            //Define Excel columns in their intended order
             String[] columns = {
                 "Date",
                 "Income",
@@ -143,11 +148,14 @@ public class MonthlyReportSvc {
                 "Wedding"
             };
 
-            //Create header row
+            //Create header row.
             Row header = 
             sheet
             .createRow(0);
-            for (int i = 0; i < columns.length; i++) {
+
+            for (int i = 0; 
+            i < columns.length; 
+            i++) {
                 Cell cell = 
                 header
                 .createCell(i);
@@ -158,69 +166,78 @@ public class MonthlyReportSvc {
             }
 
             //Write each daily expense record into its own row
-            for (int i = 0; i < dto.size(); i++) {
-                DailyDTO dDto = 
-                dto.get(i);
-
-                /*
-                 * Create excel header rows
-                 */
+            for (int i = 0; 
+            i < records.size(); 
+            i++) {
+                DailyDTO record = 
+                records
+                .get(i);
                 Row row = 
                 sheet
                 .createRow(i + 1);
 
-                //Write date into column zero
-                row.createCell(0)
-                .setCellValue(dDto
+                //Write date into 1st column.
+                row
+                .createCell(0)
+                .setCellValue(record
                 .getDate()
                 .toString());
 
+                //Define financial values in column order
                 BigDecimal[] values = {
-                    dDto.getIncome(), 
-                    dDto.getCdac(),
-                    dDto.getDebt(),
-                    dDto.getEmergency(),
-                    dDto.getSrs(),
-                    dDto.getSsb(),
-                    dDto.getElectricity(),
-                    dDto.getFood(),
-                    dDto.getGroceries(),
-                    dDto.getHaircut(),
-                    dDto.getHousehold(),
-                    dDto.getInsurances(),
-                    dDto.getInternet(),
-                    dDto.getMedical(),
-                    dDto.getMobile(),
-                    dDto.getMortgage(),
-                    dDto.getParents(),
-                    dDto.getTax(),
-                    dDto.getTransport(),
-                    dDto.getEating_out(),
-                    dDto.getHoliday(),
-                    dDto.getRecreational(),
-                    dDto.getShopping(),
-                    dDto.getSports(),
-                    dDto.getTech(),
-                    dDto.getTithes(),
-                    dDto.getWake(),
-                    dDto.getWedding()
+                    record.getIncome(),
+                    record.getCdac(),
+                    record.getDebt(),
+                    record.getEmergency(),
+                    record.getSrs(),
+                    record.getSsb(),
+                    record.getElectricity(),
+                    record.getFood(),
+                    record.getGroceries(),
+                    record.getHaircut(),
+                    record.getHousehold(),
+                    record.getInsurances(),
+                    record.getInternet(),
+                    record.getMedical(),
+                    record.getMobile(),
+                    record.getMortgage(),
+                    record.getParents(),
+                    record.getTax(),
+                    record.getTransport(),
+                    record.getEating_out(),
+                    record.getHoliday(),
+                    record.getRecreational(),
+                    record.getShopping(),
+                    record.getSports(),
+                    record.getTech(),
+                    record.getTithes(),
+                    record.getWake(),
+                    record.getWedding()
                 };
 
-                //Write each financial value into its corresponding column
-                for (int j = 0; j < values.length; j++) {
+                //Write each financial value into its corresponding cell
+                for (int j = 0; 
+                j < values.length; 
+                j++) {
                     Cell cell = 
                     row
                     .createCell(j + 1);
-                    cell
-                    .setCellValue(values[j]
-                    .doubleValue());
+                    BigDecimal value = 
+                    values[j];
+
+                    //Treat null financial values as zero.
+                    cell.setCellValue(
+                    value != null ? 
+                    value.doubleValue() : 0.0);
                     cell
                     .setCellStyle(currencyStyle);
                 }
             }
 
             //Automatically adjust each column's width
-            for (int i = 0; i < columns.length; i++) {
+            for (int i = 0; 
+            i < columns.length; 
+            i++) {
                 sheet
                 .autoSizeColumn(i);
             }
@@ -229,43 +246,44 @@ public class MonthlyReportSvc {
             workbook
             .write(output);
 
-            //Return generated Excel file
+            //Return the generated Excel file
             return new ByteArrayInputStream(output
             .toByteArray());
+
         } catch (Exception e) {
+            // Wrap Excel generation failures in a custom exception.
             throw new ExportExcelFailedException(
-            "Failed to generate expense records",
+            "Failed to generate expense records for " 
+            + sheetName,
             e);
         }
     }
 
+    /*
+     * Export expense records 
+     * for any selected month & year.
+     */
     public ByteArrayInputStream exportMonthlyRecords 
     (YearMonth month) {
-        /*
-         * Retrieve records for
-         * selected month
-         */
-        List<DailyDTO> dto = 
+        //Retrieve records for requested month
+        List <DailyDTO> records = 
         getDateRange(month);
 
-        /*
-         * Formate month & yar
-         * for worksheet name
-         */
-        String monthYear = 
+        //Format month & year for worksheet name
+        String monthYear =
         month
         .getMonth()
         .getDisplayName(TextStyle
         .FULL, 
         Locale
         .ENGLISH)
-        + " " 
+        + " "
         + month
         .getYear();
 
         //Generate & return Excel report
-        return buildCurrentMonthReport(
-        dto, 
+        return buildMonthlyReport(
+        records,
         "Expense Records for " 
         + monthYear);
     }

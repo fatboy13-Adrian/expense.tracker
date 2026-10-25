@@ -200,3 +200,29 @@ td
 .date-input {
   text-align: center;
 }
+
+/* Keep the label and input on the same row. */
+.input-date {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Date/month label. */
+.input-date-label {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Date/month input. */
+.input-date .input {
+    padding: 8px 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Disabled input appearance. */
+.input-date .input:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
