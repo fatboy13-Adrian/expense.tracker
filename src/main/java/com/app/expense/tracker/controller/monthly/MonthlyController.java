@@ -41,11 +41,12 @@ public class MonthlyController {
     @GetMapping
     @Operation(summary = 
     "Retrieve a paginated list of monthly expenses")
-    public ResponseEntity <Page <MonthlyDTO>> retrieveAllMonths
+    public ResponseEntity <Page <MonthlyDTO>> retrieveAll
     (@RequestParam(defaultValue = "1") int page, 
     @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity
         .ok(svc
-        .retrieveAll(page, size));
+        .retrieveAll(page, 
+        size));
     }
 }

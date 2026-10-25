@@ -1,20 +1,18 @@
-import {Routes, Route} from "react-router-dom";
-import DailyForm from "../DailyForm";
+import {Routes, Route, Navigate} from "react-router-dom";
 import DailyDashboard from "../dashboards/DailyDashboard";
 import MonthlyDashboard from "../dashboards/MonthlyDashboard";
-import YearlyDashboard from "../dashboards/YearlyDashboard";
 
 export default function AppRoutes () {
     return (
         <Routes>
-            <Route path = "/daily/form" 
-            element = {<DailyForm/>}/>
+            {/* <Route path = "/daily/form" 
+            element = {<DailyForm/>}/> */}
             <Route path = "/daily/retrieve" 
             element = {<DailyDashboard/>}/>
             <Route path = "/monthly/retrieve" 
             element = {<MonthlyDashboard/>}/>
-            <Route path = "/yearly/retrieve" 
-            element = {<YearlyDashboard/>}/>
+            {/* <Route path = "/yearly/retrieve" 
+            element = {<YearlyDashboard/>}/> */}
             <Route path  =  "/home" 
             element  =  {<DailyDashboard/>}/>
             <Route path = "*" 

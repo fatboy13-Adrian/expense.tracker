@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
 import com.app.expense.tracker.Daily;
 import com.app.expense.tracker.DailyRepository;
 import com.app.expense.tracker.calculator.YearlyCalculator;
@@ -177,8 +178,8 @@ public class YearlyServiceImplTest {
     }
 
     @Test
-    void testRetrieveAll () {
-        //Arrange
+    void testRetrieveAll() {
+        // Arrange
         Daily daily24 = 
         new Daily();
         daily24
@@ -186,6 +187,7 @@ public class YearlyServiceImplTest {
         .of(2024, 
         6, 
         10));
+
         Daily daily25 = 
         new Daily();
         daily25
@@ -193,6 +195,7 @@ public class YearlyServiceImplTest {
         .of(2025, 
         8, 
         15));
+
         Daily anotherDaily24 = 
         new Daily();
         anotherDaily24
@@ -204,34 +207,71 @@ public class YearlyServiceImplTest {
         when(repository
         .findAll())
         .thenReturn(List
-        .of(daily24,
+        .of(
+        daily24,
         daily25,
         anotherDaily24));
 
+        //Mock repository calls made by retrieve
+        when(repository
+        .findByDateBetween(
+        LocalDate
+        .of(2024, 
+        1, 
+        1),
+        LocalDate
+        .of(2024, 
+        12, 
+        31)
+        )).thenReturn(List
+        .of(daily24, 
+        anotherDaily24));
+
+        //Mock repository calls made by retrieve
+        when(repository.findByDateBetween(
+        LocalDate
+        .of(2025, 
+        1, 
+        1),
+        LocalDate
+        .of(2025,
+         12, 
+         31)
+        )).thenReturn(List
+        .of(daily25));
+
         //Act
-        List <YearlyDTO> result = 
+        Page <YearlyDTO> result = 
         yearlySvc
-        .retrieveAll();
+        .retrieveAll(0, 
+        10);
 
         //Assert
         assertNotNull(result);
+
+        //There should be 2 distinct years
         assertEquals(2, 
         result
+        .getContent()
         .size());
-
-        assertEquals(2024, 
+        assertEquals(2, 
         result
-        .get(0)
-        .getYear());
-        assertEquals(2025, 
-        result
-        .get(1)
-        .getYear());
+        .getTotalElements());
 
+        // Verify years are sorted in ascending order
+        assertEquals(
+        List
+        .of(2024, 
+        2025),
+        result
+        .getContent()
+        .stream()
+        .map(YearlyDTO::getYear)
+        .toList());
+
+        //Verify repository calls
         verify(repository)
         .findAll();
-
-        //Each distinct year should be retrieved once.
         verify(repository)
         .findByDateBetween(
         LocalDate
@@ -242,21 +282,20 @@ public class YearlyServiceImplTest {
         .of(2024, 
         12, 
         31));
-
         verify(repository)
         .findByDateBetween(
         LocalDate
         .of(2025, 
         1, 
         1),
-        LocalDate
-        .of(2025, 
+        LocalDate.of(2025, 
         12, 
         31));
     }
 
     @Test
-    void testRetrieveAll_noRecordsFound () {
+    void testRetrieveAll_noRecordsFound 
+    () {
         //Arrange
         when(repository
         .findAll())
@@ -264,16 +303,25 @@ public class YearlyServiceImplTest {
         .of());
 
         //Act
-        List <YearlyDTO> result = 
+        Page<YearlyDTO> result = 
         yearlySvc
-        .retrieveAll();
+        .retrieveAll(0, 
+        10);
 
         //Assert
         assertNotNull(result);
         assertEquals(0, 
         result
+        .getContent()
         .size());
+        assertEquals(0, 
+        result
+        .getTotalElements());
+        assertEquals(0, 
+        result
+        .getTotalPages());
 
+        //Verify repository call
         verify(repository)
         .findAll();
     }

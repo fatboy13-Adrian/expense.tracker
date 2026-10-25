@@ -9,6 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -29,7 +32,7 @@ class AllYearsReportSvcTest {
     @Test
     void testExportYearlyRecords () 
     throws IOException {
-        //Arrange: Create sample yearly expense records
+        //Arrange: Create a sample yearly expense record
         YearlyDTO dto = 
         new YearlyDTO();
         dto.setYear(2025);
@@ -49,20 +52,32 @@ class AllYearsReportSvcTest {
         dto.setOthers(new BigDecimal("500.00"));
         dto.setSavings(new BigDecimal("10000.00"));
 
+        //Wrap the yearly record in a Page
+        Page <YearlyDTO> yearlyPage = 
+        new PageImpl<>(
+        List
+        .of(dto),
+        PageRequest
+        .of(0, 
+        100),
+        1);
+
         when(svc
-        .retrieveAll())
-        .thenReturn(List
-        .of(dto));
+        .retrieveAll(0, 
+        100))
+        .thenReturn(yearlyPage);
 
         //Act: Export yearly records
-        ByteArrayInputStream result = 
+        ByteArrayInputStream result =
         reportSvc
         .exportYearlyRecords();
 
         //Assert: Verify generated Excel file
         assertNotNull(result);
+
         verify(svc)
-        .retrieveAll();
+        .retrieveAll(0, 
+        100);
 
         //Read generated Excel workbook
         try (Workbook workbook = 
@@ -81,16 +96,20 @@ class AllYearsReportSvcTest {
             Row header = 
             sheet
             .getRow(0);
+
             assertNotNull(header);
-            assertEquals("Year", 
+            assertEquals(
+            "Year",
             header
             .getCell(0)
             .getStringCellValue());
-            assertEquals("Income", 
+            assertEquals(
+            "Income",
             header
             .getCell(1)
             .getStringCellValue());
-            assertEquals("Savings", 
+            assertEquals(
+            "Savings",
             header
             .getCell(15)
             .getStringCellValue());
@@ -99,48 +118,63 @@ class AllYearsReportSvcTest {
             Row dataRow = 
             sheet
             .getRow(1);
-            assertNotNull(dataRow);
 
-            assertEquals(2025, 
+            assertNotNull(dataRow);
+            assertEquals(
+            2025,
             (int) dataRow
             .getCell(0)
             .getNumericCellValue());
-            assertEquals(50000.00, 
+            assertEquals(
+            50000.00,
             dataRow
             .getCell(1)
-            .getNumericCellValue(), 
+            .getNumericCellValue(),
             0.01);
-            assertEquals(5000.00, 
+            assertEquals(
+            5000.00,
             dataRow
             .getCell(2)
-            .getNumericCellValue(), 
+            .getNumericCellValue(),
             0.01);
-            assertEquals(10000.00, 
+            assertEquals(
+            10000.00,
             dataRow
             .getCell(15)
-            .getNumericCellValue(), 
+            .getNumericCellValue(),
             0.01);
         }
     }
 
     @Test
-    void testExportYearlyRecords_noRecordsExists ()
-    throws IOException {
-        //Arrange: Return an empty list
+    void testExportYearlyRecords_noRecordsExists 
+    () throws IOException {
+        //Arrange: Return an empty page
+        Page<YearlyDTO> emptyPage = 
+        new PageImpl<>(
+        List
+        .of(),
+        PageRequest
+        .of(0, 
+        100),
+        0);
+
         when(svc
-        .retrieveAll())
-        .thenReturn(List
-        .of());
+        .retrieveAll(0, 
+        100))
+        .thenReturn(emptyPage);
 
         //Act: Export yearly records
-        ByteArrayInputStream result = 
+        ByteArrayInputStream result =
         reportSvc
         .exportYearlyRecords();
 
-        //Assert: Excel file should still be generated with a header row
+        //Assert: Excel file should still be generated
         assertNotNull(result);
+
         verify(svc)
-        .retrieveAll();
+        .retrieveAll(0, 
+        100);
 
         try (Workbook workbook = 
         new XSSFWorkbook(result)) {
@@ -153,7 +187,8 @@ class AllYearsReportSvcTest {
             .getRow(0));
 
             //No yearly data rows should exist
-            assertEquals(1, 
+            assertEquals(
+            1,
             sheet
             .getPhysicalNumberOfRows());
         }

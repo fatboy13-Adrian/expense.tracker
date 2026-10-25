@@ -80,7 +80,7 @@ class MonthlyControllerTest {
         //Act
         ResponseEntity <Page<MonthlyDTO>> response =
         controller
-        .retrieveAllMonths(1, 
+        .retrieveAll(1, 
         10);
 
         //Assert

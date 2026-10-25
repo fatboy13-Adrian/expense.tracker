@@ -2,6 +2,10 @@ package com.app.expense.tracker.service.yearly;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.app.expense.tracker.Daily;
 import com.app.expense.tracker.DailyRepository;
@@ -61,22 +65,65 @@ public class YearlyServiceImpl implements YearlyService {
     }
 
     @Override
-    public List <YearlyDTO> retrieveAll 
-    () {
-        //Retrieve existing records
-        List <Daily> dList = 
+    public Page <YearlyDTO> retrieveAll 
+    (int page, int size) {
+        //Retrieve all daily records
+        List<Daily> dList = 
         repository
         .findAll();
 
-        //Extract unique, sorted years directly
-        return dList
+        //Extract unique years & sort them in ascending order
+        List<Integer> years = 
+        dList
         .stream()
-        .map(de -> 
-        de.getDate()
+        .map(daily -> 
+        daily
+        .getDate()
         .getYear())
         .distinct()
         .sorted()
+        .toList();
+
+        //Create pagination info
+        Pageable pageable = 
+        PageRequest
+        .of(page, 
+        size);
+
+        //Paginate list of unique years
+        int start = 
+        (int) pageable
+        .getOffset();
+
+        if (start >= years.size()) {
+            return new PageImpl<>(
+            List
+            .of(),
+            pageable,
+            years
+            .size());
+        }
+
+        int end = 
+        Math
+        .min(start + size, 
+        years
+        .size());
+
+        //Retrieve yearly summaries for requested page
+        List <YearlyDTO> yearlyDTOs = 
+        years
+        .subList(start, 
+        end)
+        .stream()
         .map(this::retrieve)
         .toList();
+
+        //Return paginated yearly summaries
+        return new PageImpl<>(
+        yearlyDTOs,
+        pageable,
+        years
+        .size());
     }
 }

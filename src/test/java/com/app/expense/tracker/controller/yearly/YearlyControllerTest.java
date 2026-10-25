@@ -7,9 +7,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import java.util.Arrays;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -62,35 +64,53 @@ class YearlyControllerTest {
     }
 
     @Test
-    void testRetrieveAll () {
-        // Arrange
-        List <YearlyDTO> expectedList =
-        Arrays
-        .asList(dto, 
+    void testRetrieve_noRecordsFound () {
+        //Arrange
+        int page = 0;
+        int size = 10;
+
+        List<YearlyDTO> records = 
+        List
+        .of(
         new YearlyDTO());
 
+        Page <YearlyDTO> expected = 
+        new PageImpl<>(
+        records,
+        PageRequest
+        .of(page, size),
+        records
+        .size());
+
         when(svc
-        .retrieveAll())
-        .thenReturn(expectedList);
+        .retrieveAll(page, 
+        size))
+        .thenReturn(expected);
 
         //Act
-        ResponseEntity <List <YearlyDTO>> response =
-            controller
-            .retrieveAll();
+        ResponseEntity <Page <YearlyDTO>> response =
+        controller
+        .retrieveAll(page, 
+        size);
 
         //Assert
+        assertNotNull(response);
         assertEquals(HttpStatus
         .OK, 
         response
         .getStatusCode());
-        assertNotNull(response
-        .getBody());
-        assertEquals(2, 
+
+        Page <YearlyDTO> result = 
         response
-        .getBody()
-        .size());
+        .getBody();
+
+        assertNotNull(result);
+        assertEquals(1, 
+        result
+        .getTotalElements());
 
         verify(svc)
-        .retrieveAll();
+        .retrieveAll(page, 
+        size);
     }
 }

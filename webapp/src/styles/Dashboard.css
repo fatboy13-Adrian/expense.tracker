@@ -129,3 +129,74 @@ td
   max-width: 100%;
   box-sizing: border-box;
 }
+
+/* Pagination controls */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+}
+
+.pagination-controls span {
+    padding: 12px 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Keep pagination buttons consistent with dashboard buttons */
+.dashboard-center .pagination-controls .custom-btn {
+    flex: 0 0 auto;
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+/* Keep the date label and input on the same row */
+.date-input-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* Date label */
+.date-input-label {
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
+/* Date input */
+.date-input {
+    width: auto;
+    min-width: 180px;
+}
+
+/* Month label */
+.month-input-label {
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
+/* Month input */
+.month-input {
+    width: auto;
+    min-width: 180px;
+}
+
+/* Arrange the label and month input in one row */
+.input-month-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Center the month and year text */
+.month-input {
+    text-align: center;
+}
+
+.date-input {
+  text-align: center;
+}

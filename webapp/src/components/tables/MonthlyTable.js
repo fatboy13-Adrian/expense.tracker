@@ -34,8 +34,10 @@ export default function MonthlyTable
     });
 
     return (
-        <div className = "allTables-table-wrapper">
-            <table className = "allTables-table">
+        <div className = 
+        "allTables-table-wrapper">
+            <table className = 
+            "allTables-table">
                 <thead>
                     <tr>
                         <th>Month</th>
@@ -58,9 +60,10 @@ export default function MonthlyTable
                 </thead>
 
                 <tbody>
-                    {sortedMonthly.
-                    map((monthly) => (
-                        <tr key = {monthly.month}>
+                    {sortedMonthly
+                    .map((monthly) => (
+                        <tr key = 
+                        {monthly.month}>
                             <td>{cleanText(monthly.month)}</td>
                             <td>{formatMoney(monthly.income)}</td>
                             <td>{formatMoney(monthly.debt)}</td>

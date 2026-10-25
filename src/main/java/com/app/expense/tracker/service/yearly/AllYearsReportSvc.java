@@ -2,6 +2,7 @@ package com.app.expense.tracker.service.yearly;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -11,6 +12,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import com.app.expense.tracker.dto.YearlyDTO;
 import com.app.expense.tracker.exception.ExportExcelFailedException;
@@ -25,18 +27,44 @@ public class AllYearsReportSvc {
      */
     private final YearlyService svc;
 
-    public ByteArrayInputStream exportYearlyRecords 
-    () {
+    public ByteArrayInputStream exportYearlyRecords() {
         /*
-         * Retrieve all yearly expense 
-         * records from service
-         */
-        List<YearlyDTO> dto = 
+        * Retrieve all yearly expense records
+        * from service, 1 page at a time
+        */
+        List<YearlyDTO> yearlyRecords = 
+        new ArrayList<>();
+
+        int size = 100;
+
+        //Retrieve 1st page to determine total number of pages
+        Page <YearlyDTO> firstPage = 
         svc
-        .retrieveAll();
+        .retrieveAll(0, 
+        size);
+
+        //Add records from first page
+        yearlyRecords
+        .addAll(firstPage
+        .getContent());
+
+        //Retrieve remaining pages
+        for (int page = 1; 
+        page < firstPage
+        .getTotalPages(); 
+        page++) {
+            Page <YearlyDTO> yearlyPage = 
+            svc
+            .retrieveAll(page, 
+            size);
+
+            yearlyRecords
+            .addAll(yearlyPage
+            .getContent());
+        }
 
         //Build & return Excel workbook
-        return buildYearlyReport(dto);
+        return buildYearlyReport(yearlyRecords);
     }
 
     private ByteArrayInputStream buildYearlyReport 
@@ -107,7 +135,8 @@ public class AllYearsReportSvc {
             .createRow(0);
 
             //Populate header cells
-            for (int i = 0; i < columns.length; i++) {
+            for (int i = 0; 
+            i < columns.length; i++) {
                 Cell cell = 
                 header
                 .createCell(i);
