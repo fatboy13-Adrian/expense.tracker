@@ -1,6 +1,7 @@
 import {Routes, Route, Navigate} from "react-router-dom";
 import DailyDashboard from "../dashboards/DailyDashboard";
 import MonthlyDashboard from "../dashboards/MonthlyDashboard";
+import YearlyDashboard from "../dashboards/YearlyDashboard";
 
 export default function AppRoutes () {
     return (
@@ -11,10 +12,10 @@ export default function AppRoutes () {
             element = {<DailyDashboard/>}/>
             <Route path = "/monthly/retrieve" 
             element = {<MonthlyDashboard/>}/>
-            {/* <Route path = "/yearly/retrieve" 
-            element = {<YearlyDashboard/>}/> */}
+            <Route path = "/yearly/retrieve" 
+            element = {<YearlyDashboard/>}/>
             <Route path  =  "/home" 
-            element  =  {<DailyDashboard/>}/>
+            element = {<DailyDashboard/>}/>
             <Route path = "*" 
             element = {<Navigate to = "/home" replace/>}/>
         </Routes>

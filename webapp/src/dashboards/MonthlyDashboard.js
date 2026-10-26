@@ -33,7 +33,8 @@ export default function MonthlyDashboard () {
 
     //Fetch all monthly expense records when page loads
     useEffect(() => {
-        let isMounted = true;
+        let isMounted = 
+        true;
 
         const fetchMonthly = 
         async () => {
@@ -73,8 +74,10 @@ export default function MonthlyDashboard () {
                     for (let currentPage = 2;
                     currentPage <= totalPagesFromAPI;
                     currentPage++) {
-                        remainingRequests.push(
-                        axios.get(API_URL, {
+                        remainingRequests
+                        .push(
+                        axios
+                        .get(API_URL, {
                             params: {
                                 page: currentPage,
                                 size: PAGE_SIZE
@@ -83,7 +86,8 @@ export default function MonthlyDashboard () {
                     }
 
                     const remainingResponses = 
-                    await Promise.all(
+                    await Promise
+                    .all(
                     remainingRequests);
 
                     remainingResponses
@@ -114,7 +118,8 @@ export default function MonthlyDashboard () {
                     setPage(1);
                 }
             } catch (err) {
-                console.error(
+                console
+                .error(
                 "Failed to retrieve monthly expense records:",
                 err);
 
@@ -127,14 +132,15 @@ export default function MonthlyDashboard () {
                 }
             } finally {
                 if (isMounted)
-                    setLoading(false);
+                setLoading(false);
             }
         };
 
         fetchMonthly();
 
         return () => {
-            isMounted = false;
+            isMounted = 
+            false;
         };
     }, []);
 
@@ -172,14 +178,14 @@ export default function MonthlyDashboard () {
         setPage(1);
     };
 
-    //Reset: display all years, starting from page 1
+    //Display all years, starting from page 1
     const handleReset = 
     () => {
         setSelectedYear(getCurrentYear());
         setPage(1);
     };
 
-    //View All: display all years, starting from page 1
+    //Display all years, starting from page 1
     const handleViewAllYears = 
     () => {
         setSelectedYear("");
@@ -195,7 +201,7 @@ export default function MonthlyDashboard () {
         currentPage - 1));
     };
 
-    //Navigate to  next page
+    //Navigate to next page
     const handleNextPage = 
     () => {
         setPage((currentPage) =>
@@ -230,8 +236,7 @@ export default function MonthlyDashboard () {
                 await response
                 .text();
                 throw new Error(
-                    `Download failed (${response.status}): ${errorMessage}`
-                );
+                    `Download failed (${response.status}): ${errorMessage}`);
             }
 
             //Convert response into a Blob
@@ -241,14 +246,16 @@ export default function MonthlyDashboard () {
 
             //Create temporary download URL
             const url = 
-            window.URL
+            window
+            .URL
             .createObjectURL(blob);
 
             //Create download link
             const link = 
             document
             .createElement("a");
-            link.href = url;
+            link.href = 
+            url;
             link.download = 
             `Expense Records For Year ${year}.xlsx`;
 
@@ -262,7 +269,8 @@ export default function MonthlyDashboard () {
 
             //Release temporary URL
             setTimeout(() => {
-                window.URL
+                window
+                .URL
                 .revokeObjectURL(url);
             }, 1000);
         } catch (error) {
@@ -279,7 +287,6 @@ export default function MonthlyDashboard () {
         <div className = 
         "dashboard-center">
             <h1>Monthly Expense Records</h1>
-
             <div className = 
             "filter-section">
                 <InputMonth
@@ -293,8 +300,10 @@ export default function MonthlyDashboard () {
             {loading ? (
                 <p>Loading monthly expense records...</p>
             ) : error ? (
-                <div className = "error-message" 
-                role = "alert">
+                <div className = 
+                "error-message" 
+                role = 
+                "alert">
                     {error}
                 </div>
             ) : (
@@ -361,6 +370,14 @@ export default function MonthlyDashboard () {
                             onClick = 
                             {() => navigate("/home")}>
                             Home
+                        </button>
+
+                        <button
+                            type = "button"
+                            className = "custom-btn"
+                            onClick = {() => 
+                            navigate("/yearly/retrieve")}>
+                            Yearly
                         </button>
                     </div>
                 </>

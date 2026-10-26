@@ -6,11 +6,12 @@ import InputDate from "../components/inputs/InputDate";
 import "../styles/Dashboard.css";
 
 //API Configuration
-const API_URL = "http://localhost:8080/daily";
+const API_URL = 
+"http://localhost:8080/daily";
 const PAGE_SIZE = 10;
 
-//Return current month in yyyy-MM format
-function getCurrentMonth() {
+//Return current month
+function getCurrentMonth () {
     const today = 
     new Date();
     const year = 
@@ -30,7 +31,8 @@ function isValidMonth(value) {
     .test(value);
 }
 
-export default function DailyDashboard() {
+export default function DailyDashboard 
+() {
     //Daily expense records for currently fetched page
     const [daily, setDaily] = 
     useState([]);
@@ -59,7 +61,8 @@ export default function DailyDashboard() {
 
     //Fetch daily records
     useEffect(() => {
-        let isMounted = true;
+        let isMounted = 
+        true;
 
         const fetchDaily = 
         async () => {
@@ -107,14 +110,15 @@ export default function DailyDashboard() {
                 }
             } finally {
                 if (isMounted) 
-                    setLoading(false);
+                setLoading(false);
             }
         };
 
         fetchDaily();
 
         return () => {
-            isMounted = false;
+            isMounted = 
+            false;
         };
     }, [page]);
 
@@ -122,18 +126,22 @@ export default function DailyDashboard() {
     const filteredDaily = 
     daily
     .filter((record) => (
-            typeof record.date === "string" &&
-            /^\d{4}-\d{2}-\d{2}$/.test(record.date)
+            typeof record
+            .date === 
+            "string" &&
+            /^\d{4}-\d{2}-\d{2}$/
+            .test(record
+            .date)
     ))
     .filter((record) => (
         selectedMonth === "" ||
-        record.date
+        record
+        .date
         .startsWith(selectedMonth)
     ))
     .sort((a, b) => (
         b.date
-        .localeCompare(a.date)
-    ));
+        .localeCompare(a.date)));
 
     //Update selected month
     const handleMonthChange = 
@@ -170,8 +178,7 @@ export default function DailyDashboard() {
         setPage((currentPage) => (
             Math
             .min(totalPages, 
-            currentPage + 1)
-        ));
+            currentPage + 1)));
     };
 
     //Download monthly expense reports
@@ -203,7 +210,7 @@ export default function DailyDashboard() {
             "Downloading monthly report:",
             endpoint);
 
-            //Send GET request to Spring Boot.
+            //Send GET request to Spring Boot
             const response = 
             await fetch(endpoint, {
                 method: "GET"
@@ -243,7 +250,7 @@ export default function DailyDashboard() {
                 "The downloaded Excel file is empty.");
             }
 
-            //Convert yyyy-MM into a full month name & year.
+            //Convert yyyy-MM into a full month name & year
             const [year, month] = 
             selectedMonth
             .split("-");
@@ -259,7 +266,8 @@ export default function DailyDashboard() {
 
             //Create a temporary URL for Excel file
             const url = 
-            window.URL
+            window
+            .URL
             .createObjectURL(blob);
 
             //Configure download link
@@ -280,7 +288,8 @@ export default function DailyDashboard() {
 
             //Release temporary URL after download starts
             window.setTimeout(() => {
-                window.URL
+                window
+                .URL
                 .revokeObjectURL(url);
             }, 1000);
 
@@ -315,8 +324,7 @@ export default function DailyDashboard() {
                     value = {selectedMonth}
                     onChange = {handleMonthChange}
                     className = "input"
-                    max = {getCurrentMonth()}
-                />
+                    max = {getCurrentMonth()}/>
 
             </div>
 
@@ -325,9 +333,10 @@ export default function DailyDashboard() {
                 <p>Loading daily expense records...</p>
             ) : error ? (
                 <div
-                    className = "error-message"
-                    role = "alert"
-                >
+                    className = 
+                    "error-message"
+                    role = 
+                    "alert">
                     {error}
                 </div>
             ) : (
@@ -336,11 +345,9 @@ export default function DailyDashboard() {
                     {/* Daily expense table */}
                     <div className = 
                     "allTables-table-wrapper">
-
                         <DailyTable
-                            dailyExp = 
-                            {filteredDaily}
-                        />
+                        dailyExp = 
+                        {filteredDaily}/>
                     </div>
 
                     {/* Pagination */}
@@ -350,8 +357,7 @@ export default function DailyDashboard() {
                             type = "button"
                             className = "custom-btn"
                             onClick = {handlePreviousPage}
-                            disabled = {page <= 1 || loading}
-                        >
+                            disabled = {page <= 1 || loading}>
                             Previous
                         </button>
 
@@ -386,21 +392,24 @@ export default function DailyDashboard() {
                         <button
                             type = "button"
                             className = "custom-btn"
-                            onClick = {handleViewAllMonths}>
+                            onClick = 
+                            {handleViewAllMonths}>
                             View All
                         </button>
 
                         <button
                             type = "button"
                             className = "custom-btn"
-                            onClick = {handleResetToCurrentMonth}>
+                            onClick = 
+                            {handleResetToCurrentMonth}>
                             Reset
                         </button>
 
                         <button
                             type = "button"
                             className = "custom-btn"
-                            onClick = {downloadExcel}
+                            onClick = 
+                            {downloadExcel}
                             disabled = {
                             !selectedMonth ||
                             downloading ||
@@ -416,6 +425,14 @@ export default function DailyDashboard() {
                             onClick = {() => 
                             navigate("/monthly/retrieve")}>
                             Monthly
+                        </button>
+
+                        <button
+                            type = "button"
+                            className = "custom-btn"
+                            onClick = {() => 
+                            navigate("/yearly/retrieve")}>
+                            Yearly
                         </button>
                     </div>
                 </>
