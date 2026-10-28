@@ -11,137 +11,455 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class MonthlyCalculator {
-    private final DailyRepository repository;
-    
-    public void calculateMonthly 
-    (MonthlyDTO dto) {
-        YearMonth month = 
-        dto.getMonth();
+        private final DailyRepository repository;
 
-        BigDecimal income = 
-        BigDecimal.ZERO;
-        BigDecimal debt = 
-        BigDecimal.ZERO;
-        BigDecimal emergency = 
-        BigDecimal.ZERO;
-        BigDecimal investments = 
-        BigDecimal.ZERO;
-        BigDecimal bills = 
-        BigDecimal.ZERO;
-        BigDecimal food = 
-        BigDecimal.ZERO;
-        BigDecimal groceries = 
-        BigDecimal.ZERO;
-        BigDecimal haircut = 
-        BigDecimal.ZERO;
-        BigDecimal household = 
-        BigDecimal.ZERO;
-        BigDecimal medical = 
-        BigDecimal.ZERO;
-        BigDecimal parents = 
-        BigDecimal.ZERO;
-        BigDecimal transport = 
-        BigDecimal.ZERO;
-        BigDecimal wants = 
-        BigDecimal.ZERO;
-        BigDecimal others = 
-        BigDecimal.ZERO;
+        public void calculateMonthly 
+        (MonthlyDTO dto) {
+                YearMonth month = 
+                dto
+                .getMonth();
 
-        /*Fetch all daily transactions 
-        for specified month target*/
-        List<Daily> dList = 
-        repository
-        .findByDateBetween(month
-        .atDay(1), 
-        month
-        .atEndOfMonth()
-        );
+                BigDecimal income = 
+                BigDecimal.ZERO;
+                BigDecimal debt = 
+                BigDecimal.ZERO;
+                BigDecimal emergency = 
+                BigDecimal.ZERO;
+                BigDecimal investments = 
+                BigDecimal.ZERO;
+                BigDecimal bills = 
+                BigDecimal.ZERO;
+                BigDecimal food = 
+                BigDecimal.ZERO;
+                BigDecimal groceries = 
+                BigDecimal.ZERO;
+                BigDecimal haircut = 
+                BigDecimal.ZERO;
+                BigDecimal household = 
+                BigDecimal.ZERO;
+                BigDecimal medical = 
+                BigDecimal.ZERO;
+                BigDecimal parents = 
+                BigDecimal.ZERO;
+                BigDecimal transport = 
+                BigDecimal.ZERO;
+                BigDecimal wants = 
+                BigDecimal.ZERO;
+                BigDecimal others = 
+                BigDecimal.ZERO;
 
-        /*Loop exclusively through standard 
-        daily operational cash outflows*/
-        for (Daily d : dList) {
-            income = income
-            .add(d.getIncome());
-            debt = debt
-            .add(d.getDebt());
-            emergency = emergency
-            .add(d.getEmergency());
-            investments = investments
-            .add(d.getSrs())
-            .add(d.getSsb());
-            bills = bills
-            .add(d.getCdac())
-            .add(d.getElectricity())
-            .add(d.getInternet())
-            .add(d.getInsurances())
-            .add(d.getMobile())
-            .add(d.getMortgage())
-            .add(d.getTax());
-            food = food
-            .add(d.getFood());
-            groceries = groceries
-            .add(d.getGroceries());
-            haircut = haircut
-            .add(d.getHaircut());
-            household = household
-            .add(d.getHousehold());
-            medical = medical
-            .add(d.getMedical());
-            parents = parents
-            .add(d.getParents());
-            transport = transport
-            .add(d.getTransport());
-            wants = wants
-            .add(d.getEating_out())
-            .add(d.getHoliday())
-            .add(d.getRecreational())
-            .add(d.getShopping())
-            .add(d.getSports())
-            .add(d.getTech());
-            others = others
-            .add(d.getWake())
-            .add(d.getWedding())
-            .add(d.getTithes());
+                //Fetch daily records fo specified month
+                List<Daily> dailyList = 
+                repository
+                .findByDateBetween(
+                month
+                .atDay(1),
+                month
+                .atEndOfMonth());
+
+                //Aggregate daily amounts
+                for (Daily daily : dailyList) {
+                        income = 
+                        income
+                        .add(daily
+                        .getIncome() 
+                        != null 
+                        ? daily
+                        .getIncome() 
+                        : BigDecimal
+                        .ZERO);
+
+                        debt = 
+                        debt
+                        .add(daily
+                        .getDebt() 
+                        != null 
+                        ? daily
+                        .getDebt() 
+                        : BigDecimal
+                        .ZERO);
+
+                        emergency = 
+                        emergency
+                        .add(daily
+                        .getEmergency() 
+                        != null ? 
+                        daily
+                        .getEmergency() 
+                        : BigDecimal
+                        .ZERO);
+
+                        investments = 
+                        investments
+                        .add(daily
+                        .getSrs() 
+                        != null 
+                        ? daily
+                        .getSrs() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getSsb() 
+                        != null 
+                        ? daily
+                        .getSsb() 
+                        : BigDecimal
+                        .ZERO);
+
+                        bills = 
+                        bills
+                        .add(daily
+                        .getCdac() 
+                        != null 
+                        ? daily
+                        .getCdac() 
+                        : 
+                        BigDecimal.ZERO)
+                        .add(daily
+                        .getElectricity() 
+                        != null 
+                        ? daily
+                        .getElectricity() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getInternet() 
+                        != null 
+                        ? daily
+                        .getInternet() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getInsurances() 
+                        != null 
+                        ? daily
+                        .getInsurances() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getMobile() 
+                        != null 
+                        ? daily
+                        .getMobile() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getMortgage() 
+                        != null 
+                        ? daily
+                        .getMortgage() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getTax() 
+                        != null 
+                        ? daily
+                        .getTax() 
+                        : BigDecimal
+                        .ZERO);
+
+                        food = 
+                        food
+                        .add(daily
+                        .getFood() 
+                        != null 
+                        ? daily
+                        .getFood() 
+                        : BigDecimal
+                        .ZERO);
+
+                        groceries = 
+                        groceries
+                        .add(daily
+                        .getGroceries() 
+                        != null 
+                        ? daily
+                        .getGroceries() 
+                        : BigDecimal
+                        .ZERO);
+
+                        haircut = 
+                        haircut
+                        .add(daily
+                        .getHaircut() 
+                        != null 
+                        ? daily
+                        .getHaircut() 
+                        : BigDecimal
+                        .ZERO);
+
+                        household = 
+                        household
+                        .add(daily
+                        .getHousehold() 
+                        != null 
+                        ? daily
+                        .getHousehold() 
+                        : BigDecimal
+                        .ZERO);
+
+                        medical = 
+                        medical
+                        .add(daily
+                        .getMedical() 
+                        != null 
+                        ? daily
+                        .getMedical() 
+                        : BigDecimal
+                        .ZERO);
+
+                        parents = 
+                        parents
+                        .add(daily
+                        .getParents() 
+                        != null 
+                        ? daily
+                        .getParents() 
+                        : BigDecimal
+                        .ZERO);
+
+                        transport = 
+                        transport
+                        .add(daily
+                        .getTransport() 
+                        != null 
+                        ? daily
+                        .getTransport() 
+                        : BigDecimal
+                        .ZERO);
+
+                        wants = 
+                        wants
+                        .add(daily
+                        .getEating_out() 
+                        != null 
+                        ? daily
+                        .getEating_out() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getHoliday() 
+                        != null ? 
+                        daily
+                        .getHoliday() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getRecreational() 
+                        != null 
+                        ? daily
+                        .getRecreational() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getShopping() 
+                        != null 
+                        ? daily
+                        .getShopping() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getSports() 
+                        != null 
+                        ? daily
+                        .getSports() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getTech() 
+                        != null 
+                        ? daily
+                        .getTech() 
+                        : BigDecimal
+                        .ZERO);
+
+                        others = 
+                        others
+                        .add(daily
+                        .getWake() 
+                        != null 
+                        ? daily
+                        .getWake() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getWedding() 
+                        != null 
+                        ? daily
+                        .getWedding() 
+                        : BigDecimal
+                        .ZERO)
+                        .add(daily
+                        .getTithes() 
+                        != null 
+                        ? daily
+                        .getTithes() 
+                        : BigDecimal
+                        .ZERO);
+                }
+
+                //Populate monthly DTO
+                dto.setIncome(income);
+                dto.setDebt(debt);
+                dto.setEmergency(emergency);
+                dto.setInvestments(investments);
+                dto.setBills(bills);
+                dto.setFood(food);
+                dto.setGroceries(groceries);
+                dto.setHaircut(haircut);
+                dto.setHousehold(household);
+                dto.setMedical(medical);
+                dto.setParents(parents);
+                dto.setTransport(transport);
+                dto.setWants(wants);
+                dto.setOthers(others);
+                dto.setSavings(calculateSavings(dto));
         }
 
-        /*Populate your metrics cleanly &
-        run updated calculation*/
-        dto.setIncome(income);
-        dto.setDebt(debt);
-        dto.setEmergency(emergency);
-        dto.setInvestments(investments);
-        dto.setBills(bills);
-        dto.setFood(food);
-        dto.setGroceries(groceries);
-        dto.setHaircut(haircut);
-        dto.setHousehold(household);
-        dto.setMedical(medical);
-        dto.setParents(parents);
-        dto.setTransport(transport);
-        dto.setWants(wants);
-        dto.setOthers(others);
-        dto.setSavings(calculateSavings(dto));
-    }
-    
-    public BigDecimal calculateSavings 
-    (MonthlyDTO dto) {
-        //Calculate total expenses
-        BigDecimal total = 
-        dto
-        .getDebt()
-        .add(dto.getEmergency())
-        .add(dto.getInvestments())
-        .add(dto.getBills())
-        .add(dto.getFood())
-        .add(dto.getGroceries())
-        .add(dto.getHaircut())
-        .add(dto.getHousehold())
-        .add(dto.getMedical())
-        .add(dto.getParents())
-        .add(dto.getTransport())
-        .add(dto.getWants())
-        .add(dto.getOthers());
-        return dto.getIncome()
-        .subtract(total);
-    }
+        public BigDecimal calculateSavings 
+        (MonthlyDTO dto) {
+                BigDecimal total = 
+                BigDecimal.ZERO;
+                total = 
+                total
+                .add(dto
+                .getDebt() 
+                != null 
+                ? dto
+                .getDebt() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getEmergency() 
+                != null 
+                ? dto
+                .getEmergency() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getInvestments() 
+                != null 
+                ? dto
+                .getInvestments() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getBills() 
+                != null 
+                ? dto
+                .getBills() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getFood() 
+                != null 
+                ? dto
+                .getFood() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getGroceries() 
+                != null 
+                ? dto
+                .getGroceries() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getHaircut() 
+                != null 
+                ? dto
+                .getHaircut() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getHousehold() 
+                != null 
+                ? dto
+                .getHousehold() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getMedical() 
+                != null 
+                ? dto
+                .getMedical() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getParents() 
+                != null 
+                ? dto
+                .getParents() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getTransport() 
+                != null 
+                ? dto
+                .getTransport() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getWants() 
+                != null 
+                ? dto
+                .getWants() 
+                : BigDecimal
+                .ZERO);
+
+                total = 
+                total
+                .add(dto
+                .getOthers() 
+                != null 
+                ? dto
+                .getOthers() 
+                : BigDecimal
+                .ZERO);
+
+                BigDecimal income = 
+                dto
+                .getIncome() 
+                != null
+                ? dto
+                .getIncome()
+                : BigDecimal
+                .ZERO;
+
+                return income
+                .subtract(total);
+        }
 }

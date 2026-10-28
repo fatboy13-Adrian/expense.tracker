@@ -130,7 +130,6 @@ td
   box-sizing: border-box;
 }
 
-/* Pagination controls */
 .pagination-controls {
     display: flex;
     justify-content: center;
@@ -146,14 +145,12 @@ td
     font-weight: 600;
 }
 
-/* Keep pagination buttons consistent with dashboard buttons */
 .dashboard-center .pagination-controls .custom-btn {
     flex: 0 0 auto;
     padding: 12px 20px;
     font-size: 16px;
 }
 
-/* Keep the date label and input on the same row */
 .date-input-container {
     display: flex;
     align-items: center;
@@ -161,38 +158,32 @@ td
     margin-bottom: 16px;
 }
 
-/* Date label */
 .date-input-label {
     margin-bottom: 0;
     white-space: nowrap;
 }
 
-/* Date input */
 .date-input {
     width: auto;
     min-width: 180px;
 }
 
-/* Month label */
 .month-input-label {
     margin-bottom: 0;
     white-space: nowrap;
 }
 
-/* Month input */
 .month-input {
     width: auto;
     min-width: 180px;
 }
 
-/* Arrange the label and month input in one row */
 .input-month-container {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* Center the month and year text */
 .month-input {
     text-align: center;
 }
@@ -201,27 +192,23 @@ td
   text-align: center;
 }
 
-/* Keep the label and input on the same row. */
 .input-date {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-/* Date/month label. */
 .input-date-label {
     font-weight: 600;
     white-space: nowrap;
 }
 
-/* Date/month input. */
 .input-date .input {
     padding: 8px 10px;
     font-size: 14px;
     box-sizing: border-box;
 }
 
-/* Disabled input appearance. */
 .input-date .input:disabled {
     cursor: not-allowed;
     opacity: 0.6;

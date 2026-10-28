@@ -43,41 +43,159 @@ public class YearlyCalculator {
         BigDecimal savings = 
         BigDecimal.ZERO;
 
-        //Sum up daily expenses for current year
+        //Aggregate monthly totals for current year
         for (MonthlyDTO dto : mdto) {
-            income = income
-            .add(dto.getIncome());
-            debt = debt
-            .add(dto.getDebt());
-            emergency = emergency
-            .add(dto.getEmergency());
-            investments = investments
-            .add(dto.getInvestments());
-            bills = bills
-            .add(dto.getBills());
-            food = food
-            .add(dto.getFood());
-            groceries = groceries
-            .add(dto.getGroceries());
-            haircut = haircut
-            .add(dto.getHaircut());
-            household = household
-            .add(dto.getHousehold());
-            medical = medical
-            .add(dto.getMedical());
-            parents = parents
-            .add(dto.getParents());
-            transport = transport
-            .add(dto.getTransport());
-            wants = wants
-            .add(dto.getWants());
-            others = others
-            .add(dto.getOthers());
-            savings = savings
-            .add(dto.getSavings());
+            income = 
+            income
+            .add(dto
+            .getIncome() 
+            != null 
+            ? dto
+            .getIncome() 
+            : BigDecimal
+            .ZERO);
+
+            debt = 
+            debt
+            .add(dto
+            .getDebt() != null 
+            ? dto
+            .getDebt() 
+            : BigDecimal
+            .ZERO);
+
+            emergency = 
+            emergency
+            .add(dto
+            .getEmergency() 
+            != null 
+            ? dto
+            .getEmergency() 
+            : BigDecimal
+            .ZERO);
+
+            investments = 
+            investments
+            .add(dto
+            .getInvestments() 
+            != null 
+            ? dto
+            .getInvestments() 
+            : BigDecimal
+            .ZERO);
+
+            bills = 
+            bills
+            .add(dto
+            .getBills() 
+            != null 
+            ? dto
+            .getBills() 
+            : BigDecimal
+            .ZERO);
+
+            food = 
+            food
+            .add(dto
+            .getFood() 
+            != null 
+            ? dto
+            .getFood() 
+            : BigDecimal
+            .ZERO);
+
+            groceries = 
+            groceries
+            .add(dto
+            .getGroceries() 
+            != null 
+            ? dto
+            .getGroceries() 
+            : BigDecimal
+            .ZERO);
+
+            haircut = 
+            haircut
+            .add(dto
+            .getHaircut() 
+            != null 
+            ? dto
+            .getHaircut() 
+            : BigDecimal
+            .ZERO);
+
+            household = 
+            household
+            .add(dto
+            .getHousehold() 
+            != null 
+            ? dto
+            .getHousehold() 
+            : BigDecimal
+            .ZERO);
+
+            medical = 
+            medical
+            .add(dto
+            .getMedical() 
+            != null 
+            ? dto
+            .getMedical() 
+            : BigDecimal
+            .ZERO);
+
+            parents = 
+            parents
+            .add(dto
+            .getParents() 
+            != null 
+            ? dto
+            .getParents() 
+            : BigDecimal
+            .ZERO);
+
+            transport = 
+            transport
+            .add(dto
+            .getTransport() 
+            != null 
+            ? dto
+            .getTransport() 
+            : BigDecimal
+            .ZERO);
+
+            wants = 
+            wants
+            .add(dto
+            .getWants() 
+            != null 
+            ? dto
+            .getWants() 
+            : BigDecimal
+            .ZERO);
+
+            others = 
+            others
+            .add(dto
+            .getOthers() 
+            != null 
+            ? dto
+            .getOthers() 
+            : BigDecimal
+            .ZERO);
+
+            savings = 
+            savings
+            .add(dto
+            .getSavings() 
+            != null 
+            ? dto
+            .getSavings() 
+            : BigDecimal
+            .ZERO);
         }
 
-        //Store calculated values into yearly DTO
+        //Populate yearly DTO
         ydto.setIncome(income);
         ydto.setDebt(debt);
         ydto.setEmergency(emergency);
