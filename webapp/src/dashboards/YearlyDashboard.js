@@ -7,26 +7,32 @@ import "../styles/Dashboard.css";
 //API Configuration
 const API_URL = 
 "http://localhost:8080/yearly";
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 
+10;
 
 export default function YearlyDashboard 
 () {
     //Store yearly expense records for current page
-    const [yearly, setYearly] = 
+    const [yearly, 
+    setYearly] = 
     useState([]);
 
     //Store selected page number
-    const [page, setPage] = 
+    const [page, 
+    setPage] = 
     useState(1);
 
     //Store total number of pages returned by backend
-    const [totalPages, setTotalPages] = 
+    const [totalPages, 
+    setTotalPages] = 
     useState(0);
 
     //Store errors & loading status
-    const [error, setError] = 
+    const [error, 
+    setError] = 
     useState("");
-    const [loading, setLoading] = 
+    const [loading, 
+    setLoading] = 
     useState(true);
     const navigate = 
     useNavigate();
@@ -57,7 +63,8 @@ export default function YearlyDashboard
                 .data;
 
                 //Validate paginated response
-                if (!Array.isArray(data?.content)) {
+                if (!Array
+                .isArray(data?.content)) {
                     throw new Error(
                     "Unexpected API response: yearly expense records were not found.");
                 }
@@ -65,7 +72,8 @@ export default function YearlyDashboard
                 //Sort current page by year, newest first
                 const sortedRecords = 
                 [...data.content]
-                .sort((a, b) =>
+                .sort((a, 
+                b) =>
                     String(b.year ?? "")
                     .localeCompare(
                         String(a.year ?? ""),
@@ -89,8 +97,7 @@ export default function YearlyDashboard
                 if (isMounted) {
                     setYearly([]);
                     setTotalPages(0);
-                    setError(
-                    err.response?.data?.message ||
+                    setError(err.response?.data?.message ||
                     err.message ||
                     "Failed to retrieve yearly expense records.");
                 }
@@ -131,9 +138,10 @@ export default function YearlyDashboard
     async () => {
         try {
             const response = 
-            await fetch("http://localhost:8080/yearly/export");
+            await fetch(`${API_URL}/export`);
 
-            if (!response.ok) 
+            if (!response
+            .ok)
             throw new Error("Failed to download file");
 
             const blob = 
@@ -147,14 +155,18 @@ export default function YearlyDashboard
             const link = 
             document
             .createElement("a");
-            link.href = url;
+            link.href = 
+            url;
             link.download = 
             "Expense Records For All Years.xlsx";
 
-            document.body
+            document
+            .body
             .appendChild(link);
-            link.click();
-            link.remove();
+            link
+            .click();
+            link
+            .remove();
 
             window
             .URL
@@ -163,8 +175,10 @@ export default function YearlyDashboard
             console
             .error(
             "Error downloading expense report:",
-            error);
-            alert(error.message || 
+            err);
+
+            alert(
+            err.message ||
             "Unable to download expense report.");
         }
     };
@@ -180,7 +194,8 @@ export default function YearlyDashboard
                 <div
                 className = 
                 "error-message"
-                role = "alert">
+                role = 
+                "alert">
                     {error}
                 </div>
             ) : (
@@ -200,10 +215,14 @@ export default function YearlyDashboard
                     <div className = 
                     "pagination-controls">
                         <button
-                            type = "button"
-                            className = "custom-btn"
-                            onClick = {handlePreviousPage}
-                            disabled = {page <= 1 || 
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
+                            onClick = 
+                            {handlePreviousPage}
+                            disabled = 
+                            {page <= 1 || 
                             loading}>
                             Previous
                         </button>
@@ -214,11 +233,14 @@ export default function YearlyDashboard
                         </span>
 
                         <button
-                            type = "button"
-                            className = "custom-btn"
-                            onClick = {handleNextPage}
-                            disabled={
-                            totalPages === 0 ||
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
+                            onClick = 
+                            {handleNextPage}
+                            disabled= 
+                            {totalPages === 0 ||
                             page >= totalPages ||
                             loading}>
                             Next
@@ -228,32 +250,43 @@ export default function YearlyDashboard
                     <div className = 
                     "buttons-center">
                         <button
-                            type = "button"
-                            className = "custom-btn"
-                            onClick = {downloadExcel}>
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
+                            onClick = 
+                            {downloadExcel}>
                             Download
                         </button>
 
                         <button
-                            type = "button"
-                            className = "custom-btn"
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
                             onClick = 
                             {() => navigate("/home")}>
                             Home
                         </button>
 
                         <button
-                            type = "button"
-                            className = "custom-btn"
-                            onClick = {() => 
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
+                            onClick = 
+                            {() => 
                             navigate("/monthly/retrieve")}>
                             Monthly
                         </button>
 
                         <button
-                            type = "button"
-                            className = "custom-btn"
-                            onClick = {() => 
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
+                            onClick = 
+                            {() => 
                             navigate("/yearly/retrieveAll")}>
                             Yearly
                         </button>

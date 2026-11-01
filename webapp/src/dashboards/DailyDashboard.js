@@ -8,10 +8,12 @@ import "../styles/Dashboard.css";
 //API Configuration
 const API_URL = 
 "http://localhost:8080/daily";
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 
+10;
 
 //Return current month
-function getCurrentMonth () {
+function getCurrentMonth 
+() {
     const today = 
     new Date();
     const year = 
@@ -26,7 +28,8 @@ function getCurrentMonth () {
 }
 
 //Check whether a value is a valid yyyy-MM month
-function isValidMonth(value) {
+function isValidMonth 
+(value) {
     return /^\d{4}-(0[1-9]|1[0-2])$/
     .test(value);
 }
@@ -34,27 +37,34 @@ function isValidMonth(value) {
 export default function DailyDashboard 
 () {
     //Daily expense records for currently fetched page
-    const [daily, setDaily] = 
+    const [daily, 
+    setDaily] = 
     useState([]);
 
     //Initialize month selector to current month
-    const [selectedMonth, setSelectedMonth] = 
+    const [selectedMonth, 
+    setSelectedMonth] = 
     useState(getCurrentMonth());
 
     //Pagination state
-    const [page, setPage] = 
+    const [page, 
+    setPage] = 
     useState(1);
-    const [totalPages, setTotalPages] = 
+    const [totalPages, 
+    setTotalPages] = 
     useState(0);
 
     //Loading & error state
-    const [error, setError] = 
+    const [error, 
+    setError] = 
     useState("");
-    const [loading, setLoading] = 
+    const [loading, 
+    setLoading] = 
     useState(true);
 
     //Prevent duplicate report downloads
-    const [downloading, setDownloading] = 
+    const [downloading, 
+    setDownloading] = 
     useState(false);
     const navigate = 
     useNavigate();
@@ -70,8 +80,7 @@ export default function DailyDashboard
             setError("");
 
             try {
-                const response = 
-                await axios
+                const response = await axios
                 .get(API_URL, {
                     params: {
                         //Backend expects one-based page numbers
@@ -80,12 +89,14 @@ export default function DailyDashboard
                 });
 
                 const data = 
-                response.data;
+                response
+                .data;
                 const records = 
                 data?.content;
 
                 //Validate response structure
-                if (!Array.isArray(records)) {
+                if (!Array
+                .isArray(records)) {
                     throw new Error(
                     "Unexpected API response: expense records were not found.");
                 }
@@ -103,8 +114,7 @@ export default function DailyDashboard
                 if (isMounted) {
                     setDaily([]);
                     setTotalPages(0);
-                    setError(
-                    err.response?.data?.message ||
+                    setError(err.response?.data?.message || 
                     err.message ||
                     "Failed to retrieve daily expense records.");
                 }
@@ -140,13 +150,17 @@ export default function DailyDashboard
         .startsWith(selectedMonth)
     ))
     .sort((a, b) => (
-        b.date
-        .localeCompare(a.date)));
+        b
+        .date
+        .localeCompare(a
+        .date)));
 
     //Update selected month
     const handleMonthChange = 
     (event) => {
-        setSelectedMonth(event.target.value);
+        setSelectedMonth(event
+        .target
+        .value);
         setPage(1);
     };
 
@@ -168,17 +182,17 @@ export default function DailyDashboard
     const handlePreviousPage = 
     () => {
         setPage((currentPage) => (
-            Math
-            .max(1, 
-            currentPage - 1)));
+        Math
+        .max(1, 
+        currentPage - 1)));
     };
 
     const handleNextPage = 
     () => {
         setPage((currentPage) => (
-            Math
-            .min(totalPages, 
-            currentPage + 1)));
+        Math
+        .min(totalPages, 
+        currentPage + 1)));
     };
 
     //Download monthly expense reports
@@ -217,7 +231,8 @@ export default function DailyDashboard
             });
 
             //Handle errors returned by backend
-            if (!response.ok) {
+            if (!response
+            .ok) {
                 let errorMessage;
 
                 try {
@@ -226,9 +241,12 @@ export default function DailyDashboard
                     .json();
 
                     errorMessage =
-                    errorBody.message ||
-                    errorBody.error ||
-                    response.statusText;
+                    errorBody
+                    .message ||
+                    errorBody
+                    .error ||
+                    response
+                    .statusText;
                 } catch {
                     errorMessage = 
                     response
@@ -236,7 +254,8 @@ export default function DailyDashboard
                 }
 
                 throw new Error(
-                `HTTP ${response.status}: ${errorMessage}`);
+                `HTTP ${response.status}: 
+                ${errorMessage}`);
             }
 
             //Convert response into an Excel file
@@ -251,7 +270,8 @@ export default function DailyDashboard
             }
 
             //Convert yyyy-MM into a full month name & year
-            const [year, month] = 
+            const [year, 
+            month] = 
             selectedMonth
             .split("-");
 
@@ -275,7 +295,8 @@ export default function DailyDashboard
             document
             .createElement("a");
 
-            link.href = url;
+            link.href = 
+            url;
             link.download =
             `Expense Records for ${monthYear}.xlsx`;
 
@@ -301,7 +322,6 @@ export default function DailyDashboard
             .error(
             "Error downloading Excel report:",
             err);
-
             alert(
             `Unable to download expense report.\n${err.message}`);
         } finally {
@@ -318,14 +338,20 @@ export default function DailyDashboard
             <div className = 
             "filter-section">
                 <InputDate
-                    name = "selectedMonth"
-                    label = "Month:"
-                    type = "month"
-                    value = {selectedMonth}
-                    onChange = {handleMonthChange}
-                    className = "input"
-                    max = {getCurrentMonth()}/>
-
+                    name = 
+                    "selectedMonth"
+                    label = 
+                    "Month:"
+                    type = 
+                    "month"
+                    value = 
+                    {selectedMonth}
+                    onChange = 
+                    {handleMonthChange}
+                    className = 
+                    "input"
+                    max = 
+                    {getCurrentMonth()}/>
             </div>
 
             {/* Loading & error messages */}
@@ -340,7 +366,6 @@ export default function DailyDashboard
                     {error}
                 </div>
             ) : (
-
                 <>
                     {/* Daily expense table */}
                     <div className = 
@@ -354,10 +379,15 @@ export default function DailyDashboard
                     <div className = 
                     "pagination-controls">
                         <button
-                            type = "button"
-                            className = "custom-btn"
-                            onClick = {handlePreviousPage}
-                            disabled = {page <= 1 || loading}>
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
+                            onClick = 
+                            {handlePreviousPage}
+                            disabled = 
+                            {page <= 1 || 
+                            loading}>
                             Previous
                         </button>
 
@@ -368,11 +398,15 @@ export default function DailyDashboard
                         </span>
 
                         <button
-                            type = "button"
-                            className = "custom-btn"
-                            onClick = {handleNextPage}
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
+                            onClick = 
+                            {handleNextPage}
                             disabled = {
-                            page >= totalPages ||
+                            page >= 
+                            totalPages ||
                             loading}>
                             Next
                         </button>
@@ -380,34 +414,43 @@ export default function DailyDashboard
                     </div>
 
                     {/* Dashboard action buttons */}
-                    <div className = "buttons-center">
+                    <div className = 
+                    "buttons-center">
                         <button
-                            type = "button"
-                            className = "custom-btn"
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
                             onClick = {() => 
                             navigate("/daily/form")}>
                             New / Edit
                         </button>
 
                         <button
-                            type = "button"
-                            className = "custom-btn"
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
                             onClick = 
                             {handleViewAllMonths}>
                             View All
                         </button>
 
                         <button
-                            type = "button"
-                            className = "custom-btn"
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
                             onClick = 
                             {handleResetToCurrentMonth}>
                             Reset
                         </button>
 
                         <button
-                            type = "button"
-                            className = "custom-btn"
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
                             onClick = 
                             {downloadExcel}
                             disabled = {
@@ -420,19 +463,36 @@ export default function DailyDashboard
                         </button>
 
                         <button
-                            type = "button"
-                            className = "custom-btn"
-                            onClick = {() => 
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
+                            onClick = 
+                            {() => 
                             navigate("/monthly/retrieve")}>
                             Monthly
                         </button>
 
                         <button
-                            type = "button"
-                            className = "custom-btn"
-                            onClick = {() => 
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
+                            onClick = 
+                            {() => 
                             navigate("/yearly/retrieve")}>
                             Yearly
+                        </button>
+
+                        <button
+                            type = 
+                            "button"
+                            className = 
+                            "custom-btn"
+                            onClick = 
+                            {() => 
+                            navigate("/account_info/retrieve")}>
+                            Accounts
                         </button>
                     </div>
                 </>

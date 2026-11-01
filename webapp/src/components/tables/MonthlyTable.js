@@ -1,6 +1,7 @@
 import "../../styles/Table.css";
 
-function cleanText (text) {
+function cleanText 
+(text) {
     if (!text) 
     return "-";
     const trimmed = 
@@ -12,7 +13,8 @@ function cleanText (text) {
     ? "-" : trimmed;
 }
 
-function formatMoney (value) {
+function formatMoney 
+(value) {
     if (value === null || 
     value === undefined || 
     value === "") return "-";
@@ -63,23 +65,40 @@ export default function MonthlyTable
                     {sortedMonthly
                     .map((monthly) => (
                         <tr key = 
-                        {monthly.month}>
-                            <td>{cleanText(monthly.month)}</td>
-                            <td>{formatMoney(monthly.income)}</td>
-                            <td>{formatMoney(monthly.debt)}</td>
-                            <td>{formatMoney(monthly.emergency)}</td>
-                            <td>{formatMoney(monthly.investments)}</td>
-                            <td>{formatMoney(monthly.bills)}</td>
-                            <td>{formatMoney(monthly.food)}</td>
-                            <td>{formatMoney(monthly.groceries)}</td>
-                            <td>{formatMoney(monthly.haircut)}</td>
-                            <td>{formatMoney(monthly.household)}</td>
-                            <td>{formatMoney(monthly.medical)}</td>
-                            <td>{formatMoney(monthly.parents)}</td>
-                            <td>{formatMoney(monthly.transport)}</td>
-                            <td>{formatMoney(monthly.wants)}</td>
-                            <td>{formatMoney(monthly.others)}</td>
-                            <td>{formatMoney(monthly.savings)}</td>
+                        {monthly
+                        .month}>
+                            <td>{cleanText(monthly
+                            .month)}</td>
+                            <td>{formatMoney(monthly
+                            .income)}</td>
+                            <td>{formatMoney(monthly
+                            .debt)}</td>
+                            <td>{formatMoney(monthly
+                            .emergency)}</td>
+                            <td>{formatMoney(monthly
+                            .investments)}</td>
+                            <td>{formatMoney(monthly
+                            .bills)}</td>
+                            <td>{formatMoney(monthly
+                            .food)}</td>
+                            <td>{formatMoney(monthly
+                            .groceries)}</td>
+                            <td>{formatMoney(monthly
+                            .haircut)}</td>
+                            <td>{formatMoney(monthly
+                            .household)}</td>
+                            <td>{formatMoney(monthly
+                            .medical)}</td>
+                            <td>{formatMoney(monthly
+                            .parents)}</td>
+                            <td>{formatMoney(monthly
+                            .transport)}</td>
+                            <td>{formatMoney(monthly
+                            .wants)}</td>
+                            <td>{formatMoney(monthly
+                            .others)}</td>
+                            <td>{formatMoney(monthly
+                            .savings)}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -1,6 +1,7 @@
 import "../../styles/Table.css";
 
-function cleanText (text) {
+function cleanText 
+(text) {
     if (text === null || 
     text === undefined) {
         return "-";
@@ -16,7 +17,8 @@ function cleanText (text) {
     : trimmed;
 }
 
-function formatMoney (value) {
+function formatMoney 
+(value) {
     if (value === null ||
     value === undefined ||
     value === "") {
@@ -32,7 +34,8 @@ function formatMoney (value) {
         return "-";
     }
 
-    return `$${amount.toFixed(2)}`;
+    return `$${amount
+    .toFixed(2)}`;
 }
 
 export default function YearlyTable 
@@ -64,25 +67,45 @@ export default function YearlyTable
                 </thead>
 
                 <tbody>
-                    {yearlyExp.map
-                    ((yearly, index) => (
-                        <tr key={yearly.year ?? index}>
-                            <td>{cleanText(yearly.year)}</td>
-                            <td>{formatMoney(yearly.income)}</td>
-                            <td>{formatMoney(yearly.debt)}</td>
-                            <td>{formatMoney(yearly.emergency)}</td>
-                            <td>{formatMoney(yearly.investments)}</td>
-                            <td>{formatMoney(yearly.bills)}</td>
-                            <td>{formatMoney(yearly.food)}</td>
-                            <td>{formatMoney(yearly.groceries)}</td>
-                            <td>{formatMoney(yearly.haircut)}</td>
-                            <td>{formatMoney(yearly.household)}</td>
-                            <td>{formatMoney(yearly.medical)}</td>
-                            <td>{formatMoney(yearly.parents)}</td>
-                            <td>{formatMoney(yearly.transport)}</td>
-                            <td>{formatMoney(yearly.wants)}</td>
-                            <td>{formatMoney(yearly.others)}</td>
-                            <td>{formatMoney(yearly.savings)}</td>
+                    {yearlyExp
+                    .map
+                    ((yearly, 
+                    index) => (
+                        <tr key = 
+                        {yearly.year ?? 
+                        index}>
+                            <td>{cleanText(yearly
+                            .year)}</td>
+                            <td>{formatMoney(yearly
+                            .income)}</td>
+                            <td>{formatMoney(yearly
+                            .debt)}</td>
+                            <td>{formatMoney(yearly
+                            .emergency)}</td>
+                            <td>{formatMoney(yearly
+                            .investments)}</td>
+                            <td>{formatMoney(yearly
+                            .bills)}</td>
+                            <td>{formatMoney(yearly
+                            .food)}</td>
+                            <td>{formatMoney(yearly
+                            .groceries)}</td>
+                            <td>{formatMoney(yearly
+                            .haircut)}</td>
+                            <td>{formatMoney(yearly
+                            .household)}</td>
+                            <td>{formatMoney(yearly
+                            .medical)}</td>
+                            <td>{formatMoney(yearly
+                            .parents)}</td>
+                            <td>{formatMoney(yearly
+                            .transport)}</td>
+                            <td>{formatMoney(yearly
+                            .wants)}</td>
+                            <td>{formatMoney(yearly
+                            .others)}</td>
+                            <td>{formatMoney(yearly
+                            .savings)}</td>
                         </tr>
                     ))}
                 </tbody>

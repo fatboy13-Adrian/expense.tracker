@@ -213,3 +213,11 @@ td
     cursor: not-allowed;
     opacity: 0.6;
 }
+
+.dashboard-container h1 {
+    text-align: center;
+}
+
+.dashboard-title {
+    text-align: center;
+}

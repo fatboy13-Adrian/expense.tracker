@@ -1,6 +1,7 @@
 import "../../styles/Table.css";
 
-function cleanText (text) {
+function cleanText 
+(text) {
     if (!text) 
     return "-";
     const trimmed = 
@@ -12,7 +13,8 @@ function cleanText (text) {
     ? "-" : trimmed;
 }
 
-function formatMoney (value) {
+function formatMoney 
+(value) {
     if (value === null || 
     value === undefined || 
     value === "") return "-";
@@ -20,10 +22,13 @@ function formatMoney (value) {
     .toFixed(2)}`;
 }
 
-export default function DaiilyTable ({dailyExp = [],}) {
+export default function DailyTable 
+({dailyExp = [],}) {
     return (
-        <div className = "allTables-table-wrapper">
-            <table className = "allTables-table">
+        <div className = 
+        "allTables-table-wrapper">
+            <table className = 
+            "allTables-table">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -46,21 +51,36 @@ export default function DaiilyTable ({dailyExp = [],}) {
                 <tbody>
                     {(dailyExp || [])
                     .map((daily) => (
-                        <tr key = {daily.date}>
-                            <td>{cleanText(daily.date)}</td>
-                            <td>{formatMoney(daily.food)}</td>
-                            <td>{formatMoney(daily.groceries)}</td>
-                            <td>{formatMoney(daily.haircut)}</td>
-                            <td>{formatMoney(daily.household)}</td>
-                            <td>{formatMoney(daily.medical)}</td>
-                            <td>{formatMoney(daily.parents)}</td>
-                            <td>{formatMoney(daily.transport)}</td>
-                            <td>{formatMoney(daily.eating_out)}</td>
-                            <td>{formatMoney(daily.holiday)}</td>
-                            <td>{formatMoney(daily.recreational)}</td>
-                            <td>{formatMoney(daily.shopping)}</td>
-                            <td>{formatMoney(daily.sports)}</td>
-                            <td>{formatMoney(daily.tech)}</td>
+                        <tr key = {daily
+                        .date}>
+                            <td>{cleanText(daily
+                            .date)}</td>
+                            <td>{formatMoney(daily
+                            .food)}</td>
+                            <td>{formatMoney(daily
+                            .groceries)}</td>
+                            <td>{formatMoney(daily
+                            .haircut)}</td>
+                            <td>{formatMoney(daily
+                            .household)}</td>
+                            <td>{formatMoney(daily
+                            .medical)}</td>
+                            <td>{formatMoney(daily
+                            .parents)}</td>
+                            <td>{formatMoney(daily
+                            .transport)}</td>
+                            <td>{formatMoney(daily
+                            .eating_out)}</td>
+                            <td>{formatMoney(daily
+                            .holiday)}</td>
+                            <td>{formatMoney(daily
+                            .recreational)}</td>
+                            <td>{formatMoney(daily
+                            .shopping)}</td>
+                            <td>{formatMoney(daily
+                            .sports)}</td>
+                            <td>{formatMoney(daily
+                            .tech)}</td>
                         </tr>
                     ))}
                 </tbody>

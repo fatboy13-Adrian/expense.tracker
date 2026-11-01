@@ -1,10 +1,10 @@
 import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import Button from "./components/Button";
-import TextField from "./components/Textfield";
-import InputDate from "./components/inputs/InputDate";
-import "./styles/Form.css";
+import Button from "../components/Button";
+import TextField from "../components/Textfield";
+import InputDate from "../components/inputs/InputDate";
+import "../styles/Form.css";
 
 const API_URL = 
 "http://localhost:8080/daily";
@@ -206,7 +206,8 @@ const toDailyFormValues =
     };
 };
 
-export default function DailyForm() {
+export default function DailyForm 
+() {
     const navigate = 
     useNavigate();
     const [daily, 
