@@ -1,13 +1,16 @@
-package com.app.expense.tracker;
+package com.app.expense.tracker.mapper;
 import org.springframework.stereotype.Component;
-import com.app.expense.tracker.dto.DailyDTO;
+
+import com.app.expense.tracker.dto.expense.DailyDTO;
+import com.app.expense.tracker.entity.Daily;
 
 @Component
 public class DailyMapper {
     /**
      * Converts DTO into an entity
      */
-    public Daily toEntity(DailyDTO dto) {
+    public Daily toEntity 
+    (DailyDTO dto) {
         return Daily
         .builder()
         .date(dto.getDate())
@@ -45,7 +48,8 @@ public class DailyMapper {
     /**
      * Converts entity into DTO
      */
-    public DailyDTO toDTO (Daily d) {
+    public DailyDTO toDTO 
+    (Daily d) {
         return new DailyDTO(
             d.getDate(),
             d.getIncome(),
@@ -78,7 +82,9 @@ public class DailyMapper {
             d.getWedding());
     }
 
-    public void update (Daily d, DailyDTO dto) {
+    public void update 
+    (Daily d, 
+    DailyDTO dto) {
         d.setIncome(dto.getIncome());
         d.setDebt(dto.getDebt());
         d.setEmergency(dto.getEmergency());

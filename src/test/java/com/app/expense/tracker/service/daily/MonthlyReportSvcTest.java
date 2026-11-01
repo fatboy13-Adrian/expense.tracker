@@ -1,5 +1,5 @@
 package com.app.expense.tracker.service.daily;
-import com.app.expense.tracker.dto.DailyDTO;
+import com.app.expense.tracker.dto.expense.DailyDTO;
 import com.app.expense.tracker.exception.date.DateNotFoundException;
 import com.app.expense.tracker.exception.month.MonthNotFoundException;
 import org.apache.poi.ss.usermodel.Row;

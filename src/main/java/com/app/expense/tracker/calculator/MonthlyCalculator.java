@@ -3,9 +3,11 @@ import java.math.BigDecimal;
 import java.time.YearMonth;
 import java.util.List;
 import org.springframework.stereotype.Component;
-import com.app.expense.tracker.Daily;
-import com.app.expense.tracker.DailyRepository;
-import com.app.expense.tracker.dto.MonthlyDTO;
+
+import com.app.expense.tracker.dto.expense.MonthlyDTO;
+import com.app.expense.tracker.entity.Daily;
+import com.app.expense.tracker.repository.DailyRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @Component

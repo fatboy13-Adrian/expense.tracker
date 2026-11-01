@@ -4,7 +4,7 @@ import java.time.YearMonth;
 public class MonthAlreadyExistsException extends RuntimeException {
     public MonthAlreadyExistsException 
     (YearMonth month) {
-        super ("Monthly expense record already exists for " 
+        super ("Monthly record already exists for " 
         + month);
     }
 }

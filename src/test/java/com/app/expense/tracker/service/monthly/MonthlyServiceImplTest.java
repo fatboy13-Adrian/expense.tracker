@@ -17,11 +17,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
-import com.app.expense.tracker.Daily;
-import com.app.expense.tracker.DailyRepository;
+
 import com.app.expense.tracker.calculator.MonthlyCalculator;
-import com.app.expense.tracker.dto.DailyDTO;
-import com.app.expense.tracker.dto.MonthlyDTO;
+import com.app.expense.tracker.dto.expense.DailyDTO;
+import com.app.expense.tracker.dto.expense.MonthlyDTO;
+import com.app.expense.tracker.entity.Daily;
+import com.app.expense.tracker.repository.DailyRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class MonthlyServiceImplTest {

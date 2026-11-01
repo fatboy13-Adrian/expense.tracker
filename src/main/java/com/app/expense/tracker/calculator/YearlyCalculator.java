@@ -2,8 +2,10 @@ package com.app.expense.tracker.calculator;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.stereotype.Component;
-import com.app.expense.tracker.dto.MonthlyDTO;
-import com.app.expense.tracker.dto.YearlyDTO;
+
+import com.app.expense.tracker.dto.expense.MonthlyDTO;
+import com.app.expense.tracker.dto.expense.YearlyDTO;
+
 import lombok.RequiredArgsConstructor;
 
 @Component

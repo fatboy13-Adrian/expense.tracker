@@ -1,7 +1,8 @@
 package com.app.expense.tracker.service.monthly;
 import java.time.YearMonth;
 import org.springframework.data.domain.Page;
-import com.app.expense.tracker.dto.MonthlyDTO;
+
+import com.app.expense.tracker.dto.expense.MonthlyDTO;
 
 public interface MonthlyService {
     MonthlyDTO retrieve 

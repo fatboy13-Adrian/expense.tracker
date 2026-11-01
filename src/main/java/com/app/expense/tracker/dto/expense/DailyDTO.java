@@ -1,4 +1,4 @@
-package com.app.expense.tracker.dto;
+package com.app.expense.tracker.dto.expense;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;

@@ -1,5 +1,5 @@
 package com.app.expense.tracker.controller.yearly;
-import com.app.expense.tracker.dto.YearlyDTO;
+import com.app.expense.tracker.dto.expense.YearlyDTO;
 import com.app.expense.tracker.service.yearly.YearlyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

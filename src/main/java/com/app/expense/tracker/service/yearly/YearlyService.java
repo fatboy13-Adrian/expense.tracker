@@ -1,6 +1,7 @@
 package com.app.expense.tracker.service.yearly;
 import org.springframework.data.domain.Page;
-import com.app.expense.tracker.dto.YearlyDTO;
+
+import com.app.expense.tracker.dto.expense.YearlyDTO;
 
 public interface YearlyService {
     YearlyDTO retrieve (int year);

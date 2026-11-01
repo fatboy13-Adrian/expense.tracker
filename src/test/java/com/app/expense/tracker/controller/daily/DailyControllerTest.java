@@ -1,5 +1,5 @@
 package com.app.expense.tracker.controller.daily;
-import com.app.expense.tracker.dto.DailyDTO;
+import com.app.expense.tracker.dto.expense.DailyDTO;
 import com.app.expense.tracker.service.daily.DailyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,7 +52,8 @@ class DailyControllerTest {
         .thenReturn(dto);
 
         //Act
-        ResponseEntity <DailyDTO> response = 
+        ResponseEntity <DailyDTO> 
+        response = 
         controller
         .save(dto);
 
@@ -80,7 +81,8 @@ class DailyControllerTest {
         .thenReturn(dto);
 
         //Act
-        ResponseEntity <DailyDTO> response = 
+        ResponseEntity <DailyDTO> 
+        response = 
         controller
         .retrieve(date);
 
@@ -103,7 +105,8 @@ class DailyControllerTest {
     @Test
     void testRetrieveAll () {
         //Arrange
-        Page<DailyDTO> expectedPage =
+        Page<DailyDTO> 
+        expectedPage =
         new PageImpl <>(Collections
         .singletonList(dto));
 
@@ -113,7 +116,8 @@ class DailyControllerTest {
         .thenReturn(expectedPage);
 
         //Act
-        ResponseEntity <Page <DailyDTO>> response =
+        ResponseEntity <Page <DailyDTO>> 
+        response =
         controller
         .retrieveAll(1, 
         10);
@@ -139,7 +143,8 @@ class DailyControllerTest {
     @Test
     void testDelete () {
         //Act
-        ResponseEntity <Void> response = 
+        ResponseEntity <Void> 
+        response = 
         controller
         .delete(date);
 

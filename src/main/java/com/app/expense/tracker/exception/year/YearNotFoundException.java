@@ -1,10 +1,10 @@
-package com.app.expense.tracker.exception;
+package com.app.expense.tracker.exception.year;
 import java.time.Year;
 
 public class YearNotFoundException extends RuntimeException {
     public YearNotFoundException 
     (Year year) {
-        super("Yearly expense record not found for: " 
+        super("Yearly record not found for: " 
         + year);
     }
 }

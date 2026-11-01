@@ -14,7 +14,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import com.app.expense.tracker.dto.YearlyDTO;
+
+import com.app.expense.tracker.dto.expense.YearlyDTO;
 import com.app.expense.tracker.exception.ExportExcelFailedException;
 import lombok.RequiredArgsConstructor;
 

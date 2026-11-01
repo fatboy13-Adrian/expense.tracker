@@ -6,10 +6,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.app.expense.tracker.Daily;
-import com.app.expense.tracker.DailyRepository;
+
 import com.app.expense.tracker.calculator.MonthlyCalculator;
-import com.app.expense.tracker.dto.MonthlyDTO;
+import com.app.expense.tracker.dto.expense.MonthlyDTO;
+import com.app.expense.tracker.entity.Daily;
+import com.app.expense.tracker.repository.DailyRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @Service

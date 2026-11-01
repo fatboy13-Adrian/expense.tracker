@@ -1,7 +1,8 @@
 package com.app.expense.tracker.service.daily;
 import java.time.LocalDate;
 import org.springframework.data.domain.Page;
-import com.app.expense.tracker.dto.DailyDTO;
+
+import com.app.expense.tracker.dto.expense.DailyDTO;
 
 public interface DailyService {
     DailyDTO save 

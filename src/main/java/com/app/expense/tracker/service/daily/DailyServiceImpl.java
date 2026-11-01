@@ -4,11 +4,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.app.expense.tracker.Daily;
-import com.app.expense.tracker.DailyMapper;
-import com.app.expense.tracker.DailyRepository;
-import com.app.expense.tracker.dto.DailyDTO;
+
+import com.app.expense.tracker.dto.expense.DailyDTO;
+import com.app.expense.tracker.entity.Daily;
 import com.app.expense.tracker.exception.date.DateNotFoundException;
+import com.app.expense.tracker.mapper.DailyMapper;
+import com.app.expense.tracker.repository.DailyRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

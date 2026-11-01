@@ -4,7 +4,7 @@ import java.time.YearMonth;
 public class MonthNotFoundException extends RuntimeException {
     public MonthNotFoundException 
     (YearMonth month) {
-        super("Monthly expense record not found for: " 
+        super("Monthly record not found for: " 
         + month);
     }
 }

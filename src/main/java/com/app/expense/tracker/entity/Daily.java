@@ -1,4 +1,4 @@
-package com.app.expense.tracker;
+package com.app.expense.tracker.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate; 
 import jakarta.persistence.Column;

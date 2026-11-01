@@ -33,4 +33,4 @@ build/
 .vscode/
 
 # Ignore Java File/s
-/src/main/java/com/app/expense/tracker/DailyLoader.java
+/src/main/java/com/app/expense/tracker/dataloader
